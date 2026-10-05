@@ -1,0 +1,12 @@
+[plugin]
+id = "com.penni.cruor"
+executable = "cruor.dll"
+enabled = true
+name = "Cruor"
+description = "Physics blood: wounds spray and drip real liquid that splashes, runs down walls and stains floors, walls and objects; bloody weapons fling strings of blood. F5 on/off, F8 clear, Numpad for settings."
+version = "1.0.0"
+supported_versions = []
+url = "https://example.com"
+
+[plugin.author]
+name = "penni"
