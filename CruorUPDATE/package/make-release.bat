@@ -11,7 +11,7 @@ set "VER=1.0.0"
 cd /d "%PLUG%"
 
 rem ---- launcher and README: from this folder, or Downloads ----
-for %%F in ("Play Exanima with Cruor.vbs" "README - Cruor.txt") do (
+for %%F in ("Play Exanima with Cruor.vbs" "Play Exanima with Cruor (troubleshooting).bat" "README - Cruor.txt") do (
     if not exist "%PLUG%\%%~F" if exist "%DL%\%%~F" copy /y "%DL%\%%~F" "%PLUG%\%%~F" >nul
     if not exist "%PLUG%\%%~F" (
         echo Missing %%~F - save it into %PLUG% first.
@@ -26,6 +26,10 @@ rem (the release code starts with "// Cruor 1.0.0 - physics blood"; test builds 
 findstr /b /c:"// Cruor %VER% - physics blood" "%PLUG%\src\lib.rs" >nul
 if errorlevel 1 goto wrongsource
 echo Source: Cruor %VER% release code - OK
+
+rem ---- build with the C runtime built in, so players don't need the Visual C++
+rem      Redistributable (no VCRUNTIME140.dll - a cause of "OS error 126") ----
+set "RUSTFLAGS=-C target-feature=+crt-static"
 
 rem ---- 1. Cruor ----
 if not exist "target\release\build\deps" mkdir "target\release\build\deps"
@@ -79,6 +83,7 @@ for %%L in ("%TK%\LICENSE*") do copy /y "%%L" "%OUT%\emtk\" >nul
 if exist "%TK%\crates\detours\ext\detours\LICENSE.md" copy /y "%TK%\crates\detours\ext\detours\LICENSE.md" "%OUT%\emtk\LICENSE-Detours.md" >nul
 if exist "%TK%\crates\detours\ext\detours\LICENSE" copy /y "%TK%\crates\detours\ext\detours\LICENSE" "%OUT%\emtk\LICENSE-Detours" >nul
 copy /y "Play Exanima with Cruor.vbs" "%OUT%\Play Exanima with Cruor.vbs" >nul
+copy /y "Play Exanima with Cruor (troubleshooting).bat" "%OUT%\Play Exanima with Cruor (troubleshooting).bat" >nul
 copy /y "README - Cruor.txt" "%OUT%\README - Cruor.txt" >nul
 
 set "ZIP=%PLUG%\Cruor-%VER%.zip"

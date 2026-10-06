@@ -86,23 +86,23 @@ static OFF_POS: AtomicUsize = AtomicUsize::new(0x360);
 // ---- In-game tunable settings (numpad) ----
 // (name, default, min, max, multiplicative step or additive step if < 0)
 const TUNE: [(&str, f32, f32, f32, f32); 13] = [
-    ("amount", 1.123, 0.1, 6.0, 1.15),
+    ("amount", 0.977, 0.1, 6.0, 1.15),
     ("force", 0.958, 0.1, 4.0, 1.1),
-    ("spread", 5.257, 0.0, 8.0, 1.15),
-    ("drop_size", 0.622, 0.2, 5.0, 1.1),
-    ("splat_size", 0.69, 0.2, 5.0, 1.1),
-    ("gravity", 0.999, 0.0, 4.0, 1.1),
-    ("stickiness", 0.115, 0.0, 5.0, 1.15),
+    ("spread", 2.273, 0.0, 8.0, 1.15),
+    ("drop_size", 0.753, 0.2, 5.0, 1.1),
+    ("splat_size", 0.57, 0.2, 5.0, 1.1),
+    ("gravity", 1.463, 0.0, 4.0, 1.1),
+    ("stickiness", 0.175, 0.0, 5.0, 1.15),
     ("drip_seconds", 15.0, 0.0, 30.0, -0.5),
-    ("darkness", 0.9, 0.2, 1.8, -0.05),
+    ("darkness", 1.15, 0.2, 1.8, -0.05),
     // how much a wound drips (1 = 6 drops a second)
     ("drip_amount", 2.615, 0.0, 8.0, 1.15),
     // how much a hit's hardness changes the spray (0 = every hit alike, 1 = normal, 2 = strong)
-    ("hit_impact", 1.0, 0.0, 2.0, -0.1),
+    ("hit_impact", 0.4, 0.0, 2.0, -0.1),
     // how much blood a bloody weapon flings off its tip when swung (0 = off)
-    ("cast_off", 0.25, 0.0, 3.0, -0.25),
+    ("cast_off", 0.75, 0.0, 3.0, -0.25),
     // how stringy the blood flung off a weapon is - its own stickiness (0 = loose drops)
-    ("cast_off_string", 0.25, 0.0, 5.0, -0.25),
+    ("cast_off_string", 0.75, 0.0, 5.0, -0.25),
 ];
 const T_AMOUNT: usize = 0;
 const T_FORCE: usize = 1;
@@ -117,7 +117,7 @@ const T_DRIP_AMT: usize = 9;
 const T_IMPACT: usize = 10;
 const T_CASTOFF: usize = 11;
 const T_CO_STRING: usize = 12;
-static TUNE_VALUES: Mutex<[f32; 13]> = Mutex::new([1.123, 0.958, 5.257, 0.622, 0.69, 0.999, 0.115, 15.0, 0.9, 2.615, 1.0, 0.25, 0.25]);
+static TUNE_VALUES: Mutex<[f32; 13]> = Mutex::new([0.977, 0.958, 2.273, 0.753, 0.57, 1.463, 0.175, 15.0, 1.15, 2.615, 0.4, 0.75, 0.75]);
 static TUNE_SELECTED: AtomicU32 = AtomicU32::new(0);
 fn tv(i: usize) -> f32 {
     TUNE_VALUES.lock().map(|v| v[i]).unwrap_or(TUNE[i].1)
@@ -7719,7 +7719,7 @@ fn install_crash_handler() {
     static DONE: AtomicBool = AtomicBool::new(false);
     if !DONE.swap(true, Ordering::Relaxed) {
         unsafe { AddVectoredExceptionHandler(1, crash_handler) };
-        file_log("Cruor: crash recorder installed (blood-log.txt)");
+        file_log("Cruor: crash recorder installed (Cruor-log.txt)");
     }
 }
 
